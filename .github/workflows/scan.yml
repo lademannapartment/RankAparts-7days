@@ -3,7 +3,10 @@ name: Rank AP7d scan
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 4 */3 * *"   # каждые 3 дня в 04:00 UTC = 05:00 по Варшаве зимой, 06:00 летом
+    # GitHub cron работает только в UTC. 03:00 и 04:00 UTC покрывают 05:00 по Варшаве
+    # и зимой (CET, UTC+1), и летом (CEST, UTC+2). Лишний запуск отсекает шаг "Проверка расписания".
+    - cron: "0 3 * * *"
+    - cron: "0 4 * * *"
 
 concurrency:
   group: rank-ap7d
@@ -17,16 +20,39 @@ jobs:
       GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
       HEADLESS: "1"
     steps:
+      - name: Проверка расписания (каждые 3 дня в 05:00 по Варшаве)
+        id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"; echo "Ручной запуск"; exit 0
+          fi
+          HOUR=$(TZ=Europe/Warsaw date +%H)
+          if [ "$HOUR" != "05" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"; echo "Варшавский час $HOUR, не 05 — пропуск"; exit 0
+          fi
+          # Номер дня по варшавской дате; запуск только когда он кратен 3
+          DAY=$(( $(date -u -d "$(TZ=Europe/Warsaw date +%F)" +%s) / 86400 ))
+          if [ $(( DAY % 3 )) -ne 0 ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"; echo "Не день запуска — пропуск"; exit 0
+          fi
+          echo "run=true" >> "$GITHUB_OUTPUT"; echo "День запуска"
+
       - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
 
       - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
         with:
           python-version: "3.12"
 
       - name: Install dependencies
+        if: steps.gate.outputs.run == 'true'
         run: |
           pip install -r requirements.txt
           python -m playwright install --with-deps chromium
 
       - name: Run scan
+        if: steps.gate.outputs.run == 'true'
         run: python RankAP7d.py
