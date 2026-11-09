@@ -38,44 +38,38 @@ HEADLESS = os.environ.get("HEADLESS", "0") == "1"  # на Mac по умолча�
 USER_AGENT = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
               "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
 
-# Гданьск (Колонки I–AL)
-LISTING_COLUMNS_GDANSK = {
-    "Swish Apartment -10 Min to Old Town Gdańsk,PKP & Shopping Mall": 9,
-    "Milky Apartment with Balcony - 3 km to Baltic Sea": 10,
-    "Homely Apartment with Balcony - 3 km to Baltic Sea": 11,
-    "Wine Apartment - 5 min to Old Town Gdańsk": 12,
-    "Wave Apartment with Amazing View- 2 km to Baltic Sea": 13,
-    "Anchor Apartment Your Docking Point in the Heart of Gdańsk": 14,
-    "Boho Apartment - 10 Min to Old Town Gdańsk,PKP & Shopping Mall": 15,
-    "Luna Premium Apartment at Old Town Gdansk": 16,
-    "Libertas Premium Apartment at Old Town Gdansk": 17,
-    "Postcard Apartment Scenic Escape 10 Minutes to Gdańsk Old Town and Seaside": 18,
-    "Panorama Apartment with Amazing View- 2 km to Baltic Sea, 15 Minutes to Gdańsk Old Town": 19,
-    "Old Town Heaven Apartment": 20,
-    "Seredino Blue Apartment- Modern Comfort in a Quiet Location, 5 Minutes to Gdańsk Old Town & Seaside": 21,
-    "Seredino Green Apartment- Modern Comfort in a Quiet Location, 5 Minutes to Gdańsk Old Town & Seaside": 22,
-    "Seredino Relax Apartment- Romantic Escape with a Bathtub in the Bedroom, 5 Minutes to Gdańsk Old Town & Seaside": 23,
-    "Seredino Navy Apartment- Modern Comfort in a Quiet Location, 5 Minutes to Gdańsk Old Town & Seaside": 24,
-    "Laura Apartment with Sauna & Gym, 5 Min to Baltic Sea & Polsat Plus Arena": 25,
-    "Coast Apartment with Sauna & Gym, 5 Min to Baltic Sea & Polsat Plus Arena": 26,
-    "Golden Apartment - Premium Apartment at Old Town Gdansk": 27,
-    "Amber Apartment - Premium Apartment at Old Town Gdansk": 28,
-    "Bloom Apartment with Sauna & Gym, 5 Min to Baltic Sea & Polsat Plus Arena": 29,
-    "Legit Apartment - Old Town Gdansk": 30,
-    "Elite Apartment 15 min to Old Town Gdansk": 31,
-    "Seashell Apartment - at Gdańsk Stogi, 5 min by car to Baltic Sea": 32,
-    "Rout Studio 5 min to Old Town Gdansk": 33,
-    "Queem Studio 10 min to Old Town Gdansk": 34,
-    "Exclusive Apartment at Old Town Gdansk": 35,
-    "Riverview Apartment at Old Town Gdańsk": 36,
-    "Coconut Apartment - 5 min to Baltic Sea": 37,
-    "Granaria Apartment - Heart of Motlawa Promenade at Old Town Gdansk": 38
-}
-
 # Гдыня: AP, AQ
 LISTING_COLUMNS_GDYNIA = {
-    "Bohos Apartment - 2 min to City Center Gdynia & Seaside": 42,  # AP
-    "Sailor Apartment- 10 minutes to Seaside & City Center": 43  # AQ
+    "Bohos Apartment - 2 min to City Center Gdynia & Seaside": 42,
+    "Sailor Apartment- 10 minutes to Seaside & City Center": 43,
+}
+
+# Гданьск: I (9) ... AF (32)
+LISTING_COLUMNS_GDANSK = {
+    "Swish Apartment -10 Min to Old Town Gdańsk,PKP & Shopping Mall": 9,
+    "Wave Apartment with Amazing View- 2 km to Baltic Sea": 10,
+    "Anchor Apartment Your Docking Point in the Heart of Gdańsk": 11,
+    "Boho Apartment - 10 Min to Old Town Gdańsk,PKP & Shopping Mall": 12,
+    "Luna Premium Apartment at Old Town Gdansk": 13,
+    "Libertas Premium Apartment at Old Town Gdansk": 14,
+    "Panorama Apartment with Amazing View- 2 km to Baltic Sea, 15 Minutes to Gdańsk Old Town": 15,
+    "Old Town Heaven Apartment": 16,
+    "Seredino Blue Apartment- Modern Comfort in a Quiet Location, 5 Minutes to Gdańsk Old Town & Seaside": 17,
+    "Seredino Green Apartment- Modern Comfort in a Quiet Location, 5 Minutes to Gdańsk Old Town & Seaside": 18,
+    "Seredino Relax Apartment- Modern Comfort in a Quiet Location, 5 Minutes to Gdańsk Old Town & Seaside": 19,
+    "Seredino Navy Apartment- Modern Comfort in a Quiet Location, 5 Minutes to Gdańsk Old Town & Seaside": 20,
+    "Laura Apartment with Sauna & Gym, 5 Min to Baltic Sea & Polsat Plus Arena": 21,
+    "Bloom Apartment with Sauna & Gym, 5 Min to Baltic Sea & Polsat Plus Arena": 22,
+    "Seashell Apartment - at Gdańsk Stogi, 5 min by car to Baltic Sea": 23,
+    "Coconut Apartment - 5 min to Baltic Sea": 24,
+    "Granaria Apartment - Heart of Motlawa Promenade at Old Town Gdansk": 25,
+    "Casa Verde Apartment at Old Town Gdańsk": 26,
+    "Casa Pluma Apartment at Old Town Gdańsk": 27,
+    "Rout Studio 5 min to Old Town Gdansk": 28,
+    "Queem Studio 10 min to Old Town Gdansk": 29,
+    "Avenue 77 Apartment - 15 Minutes to Seaside": 30,
+    "Honey Apartment- Cozy Retreat, 10 Minutes to Gdańsk Old Town": 31,
+    "Birch Studio - Peaceful Retreat, 20 Minutes to Gdańsk Old Town & Seaside": 32,
 }
 
 # Параметры поиска без меток трекинга (label/aid/gclid)
