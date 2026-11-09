@@ -214,17 +214,24 @@ async def scrape_cards_and_get_ranks(page: Page, listings_map: dict) -> Tuple[di
             print(f"   ⏹ Достигнут лимит в {MAX_RANK} карточек.")
             break
 
-        # Подгрузка: кнопка или прокрутка, затем ждём новые карточки
-        try:
-            show_more = page.locator('button:has-text("Załaduj"), button:has-text("Show more")').first
-            if await show_more.is_visible(timeout=1000):
-                await show_more.click(force=True)
-            else:
-                await page.evaluate("window.scrollTo(0, document.body.scrollHeight);")
-            if not await wait_for_more_cards(page, current_count):
-                break  # новых карточек нет — выдача закончилась
-        except Exception:
-            break
+        # Подгрузка: кнопка или прокрутка, затем ждём новые карточки.
+        # Не останавливаемся после одной неудачной попытки: до 3 раз пробуем подгрузить снова.
+        loaded_more = False
+        for attempt in range(1, 4):
+            try:
+                show_more = page.locator('button:has-text("Załaduj"), button:has-text("Show more")').first
+                if await show_more.is_visible(timeout=1000):
+                    await show_more.click(force=True)
+                else:
+                    await page.evaluate("window.scrollTo(0, document.body.scrollHeight);")
+                if await wait_for_more_cards(page, current_count, timeout_ms=20000):
+                    loaded_more = True
+                    break
+                print(f"   ⏳ Новых карточек нет, попытка {attempt}/3")
+            except Exception as e:
+                print(f"   ⚠️ Ошибка подгрузки: {e}")
+        if not loaded_more:
+            break  # после 3 попыток выдача действительно закончилась
 
     return found_ranks, mmrent_count, seen_cards_count
 
