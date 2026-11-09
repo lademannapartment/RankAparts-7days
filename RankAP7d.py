@@ -301,9 +301,15 @@ async def main_async():
 
     async with async_playwright() as p:
         # HEADLESS=0 — окно браузера видно (Booking реже блокирует обычный браузер, чем headless)
+        # BROWSER_CHANNEL=chrome — использовать установленный Chrome (на Mac), по умолчанию Chromium Playwright
+        channel = os.environ.get("BROWSER_CHANNEL") or None
         browser = await p.chromium.launch(
             headless=HEADLESS,
-            args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", "--disable-gpu"],
+            channel=channel,
+            # убираем флаг автоматизации, чтобы Booking не отдавал страницу города вместо выдачи
+            ignore_default_args=["--enable-automation"],
+            args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", "--disable-gpu",
+                  "--disable-blink-features=AutomationControlled"],
         )
         context = await browser.new_context(
             user_agent=USER_AGENT,
@@ -312,6 +318,8 @@ async def main_async():
             viewport={"width": 1400, "height": 900},
             service_workers="block",
         )
+        # скрываем признак WebDriver у navigator
+        await context.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined});")
         await context.route("**/*", block_aggressively)
 
         for i in range(DAYS_FORWARD):
