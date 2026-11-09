@@ -25,8 +25,13 @@ TZ = ZoneInfo("Europe/Warsaw")
 SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1t8jZFnJ5PxW9ry8SPN8WAGhbsgICn5F9BZCR9d4vB5U/edit"
 SHEET_NAME_RANK = "Rank AP7d"
 # Ключ лежит в папке RankApart (на уровень выше этой папки)
-CREDENTIALS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..",
-                                "silken-glyph-443313-i4-cdf14b36288a.json")
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_KEY_NAME = "silken-glyph-443313-i4-cdf14b36288a.json"
+# ключ ищем рядом со скриптом, потом на уровень выше (как было раньше)
+CREDENTIALS_FILE = next(
+    (p for p in (os.path.join(_HERE, _KEY_NAME), os.path.join(_HERE, "..", _KEY_NAME)) if os.path.exists(p)),
+    os.path.join(_HERE, _KEY_NAME),
+)
 STAY_NIGHTS = 7           # ← 7 ночей
 DAYS_FORWARD = 60
 MAX_RANK = 400
